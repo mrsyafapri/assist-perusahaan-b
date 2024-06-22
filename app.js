@@ -1,12 +1,14 @@
-require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
+
+const employeeRoutes = require('./routes/employee');
 
 const app = express();
 const router = express.Router();
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +28,8 @@ database.once("connected", () => {
 router.get("/", (req, res) => {
     res.send("Welcome to the Perusahaan B API");
 });
+
+router.use('/employee', employeeRoutes);
 
 app.use("/api/v1", router);
 app.listen(port, () => {
